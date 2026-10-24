@@ -395,3 +395,43 @@ html {
   object-fit: cover;
   -webkit-user-drag: none;
 }
+
+/* ── Customer Logo Rainfall Animation ───────────────────────────────────────── */
+@keyframes logoRainfall {
+  0% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+.animate-rainfall-1 {
+  animation: logoRainfall 38s linear infinite;
+}
+
+.animate-rainfall-2 {
+  animation: logoRainfall 48s linear infinite;
+}
+
+.animate-rainfall-3 {
+  animation: logoRainfall 34s linear infinite;
+}
+
+.animate-rainfall-4 {
+  animation: logoRainfall 44s linear infinite;
+}
+
+.animate-rainfall-5 {
+  animation: logoRainfall 40s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rainfall-1,
+  .animate-rainfall-2,
+  .animate-rainfall-3,
+  .animate-rainfall-4,
+  .animate-rainfall-5 {
+    animation: none;
+  }
+}

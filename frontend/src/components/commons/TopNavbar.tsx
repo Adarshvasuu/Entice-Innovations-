@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 
 const navLinks = [
@@ -10,15 +11,11 @@ const navLinks = [
   { name: "Services", href: "/services" },
   { name: "Portfolio", href: "/portfolio" },
   { name: "Blog", href: "/blog" },
-  { name: "Contact", href: "/contact" },
 ];
 
 export default function TopNavbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  const isHome = pathname === "/";
 
   useEffect(() => {
     setMenuOpen(false);
@@ -31,99 +28,89 @@ export default function TopNavbar() {
     };
   }, [menuOpen]);
 
-  useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 120);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // On homepage, only show the floating navbar when scrolled past the top hero
-  const shouldShow = !isHome || scrolled;
-
   return (
     <>
-      <header
-        className={`w-full bg-transparent fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          shouldShow ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 h-[64px] flex items-center justify-between">
-          {/* Logo */}
-          <a href="/" className="flex items-center gap-2.5 flex-shrink-0">
-            <img
-              src="/assets/logo/entice-logo.svg"
-              alt="Entice Innovations"
-              className="h-8 w-auto"
-            />
-            <span
-              className="text-[#0A0F1E] text-2xl tracking-[-0.02em] leading-none"
-              style={{ fontFamily: "'Bodoni Moda', 'Cormorant Garamond', serif", fontWeight: 700 }}
+      {/* Floating Centered Pill Navbar — Resend Aesthetic */}
+      <header className="fixed top-0 left-0 right-0 z-50 w-full pt-4 sm:pt-6 px-4 pointer-events-none flex justify-center">
+        <div className="pointer-events-auto">
+          <div className="flex items-center gap-2 sm:gap-6 bg-white/85 backdrop-blur-xl border border-black/[0.08] rounded-full px-3.5 sm:px-4 py-1.5 shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:border-black/[0.12] transition-all duration-300">
+            {/* Brand Logo & Wordmark */}
+            <Link
+              href="/"
+              className="flex items-center gap-2 py-0.5 pr-1 sm:pr-2 group"
+              aria-label="Entice Innovations Home"
             >
-              Entice
-            </span>
-          </a>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/assets/logo/entice-logo.svg"
+                alt="Entice Innovations"
+                className="w-5 h-5 object-contain transition-transform group-hover:scale-105"
+              />
+              <span
+                className="text-[15px] font-bold tracking-tight text-[#0A0F1E] leading-none"
+                style={{ fontFamily: "'Bodoni Moda', serif" }}
+              >
+                Entice
+              </span>
+            </Link>
 
-          {/* Desktop nav — Frosted Glass pill */}
-          <nav className="hidden md:flex items-center">
-            <div className="flex items-center gap-1 bg-white/80 backdrop-blur-md border border-black/[0.08] rounded-full px-2 py-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
+            {/* Desktop Navigation Links */}
+            <nav className="hidden md:flex items-center gap-0.5 text-xs font-medium text-[#4A5568]">
               {navLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
-                  <a
+                  <Link
                     key={link.name}
                     href={link.href}
-                    className={`px-4 py-1.5 rounded-full text-xs uppercase tracking-[0.12em] font-medium transition-all duration-150 whitespace-nowrap ${
+                    className={`px-3 py-1.5 rounded-full transition-all duration-150 whitespace-nowrap ${
                       isActive
-                        ? "bg-[#0F67FF] text-white shadow-sm"
-                        : "text-[#4A5568] hover:text-[#0A0F1E] hover:bg-black/[0.03]"
+                        ? "text-[#0A0F1E] font-semibold bg-black/[0.05]"
+                        : "hover:text-[#0A0F1E] hover:bg-black/[0.03]"
                     }`}
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 );
               })}
-            </div>
-          </nav>
+            </nav>
 
-          {/* Contact CTA Link */}
-          <div className="hidden md:block">
-            <a
+            {/* Right: Resend-style Compact CTA Pill */}
+            <Link
               href="/contact"
-              className="px-5 py-2 rounded-full text-xs uppercase tracking-[0.14em] font-semibold bg-[#0A0F1E] text-white hover:bg-[#0F67FF] transition-colors"
+              className="inline-flex items-center gap-1.5 bg-[#0A0F1E] text-white text-xs font-medium px-3.5 sm:px-4 py-1.5 rounded-full border border-white/10 shadow-sm hover:bg-[#0F67FF] hover:border-[#0F67FF] transition-all duration-200"
             >
-              Get in Touch
-            </a>
-          </div>
+              <span>Get in touch</span>
+            </Link>
 
-          {/* Mobile hamburger */}
-          <button
-            className="md:hidden flex flex-col gap-[5px] p-2 -mr-1"
-            onClick={() => setMenuOpen((o) => !o)}
-            aria-label="Toggle menu"
-          >
-            <span
-              className={`block w-[20px] h-[1.5px] bg-[#0A0F1E] rounded-full transition-all duration-300 origin-center ${
-                menuOpen ? "rotate-45 translate-y-[6.5px]" : ""
-              }`}
-            />
-            <span
-              className={`block w-[20px] h-[1.5px] bg-[#0A0F1E] rounded-full transition-all duration-300 ${
-                menuOpen ? "opacity-0" : ""
-              }`}
-            />
-            <span
-              className={`block w-[20px] h-[1.5px] bg-[#0A0F1E] rounded-full transition-all duration-300 origin-center ${
-                menuOpen ? "-rotate-45 -translate-y-[6.5px]" : ""
-              }`}
-            />
-          </button>
+            {/* Mobile Hamburger Toggle */}
+            <button
+              onClick={() => setMenuOpen((o) => !o)}
+              className="md:hidden p-1.5 text-[#0A0F1E] hover:bg-black/5 rounded-full transition-colors"
+              aria-label="Toggle Navigation"
+            >
+              <div className="w-4 h-3 flex flex-col justify-between">
+                <span
+                  className={`block h-[1.5px] bg-[#0A0F1E] rounded-full transition-all duration-300 ${
+                    menuOpen ? "rotate-45 translate-y-[5.2px]" : ""
+                  }`}
+                />
+                <span
+                  className={`block h-[1.5px] bg-[#0A0F1E] rounded-full transition-all duration-300 ${
+                    menuOpen ? "opacity-0" : ""
+                  }`}
+                />
+                <span
+                  className={`block h-[1.5px] bg-[#0A0F1E] rounded-full transition-all duration-300 ${
+                    menuOpen ? "-rotate-45 -translate-y-[5.2px]" : ""
+                  }`}
+                />
+              </div>
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* Mobile dropdown */}
+      {/* Mobile Navigation Dropdown */}
       <AnimatePresence>
         {menuOpen && (
           <>
@@ -132,41 +119,41 @@ export default function TopNavbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className="fixed inset-0 bg-black/20 z-40 md:hidden"
+              className="fixed inset-0 bg-black/25 z-40 md:hidden backdrop-blur-sm"
               onClick={() => setMenuOpen(false)}
             />
             <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.18, ease: "easeOut" }}
-              className="fixed top-[64px] left-3 right-3 z-50 md:hidden bg-white/95 backdrop-blur-xl rounded-2xl border border-black/[0.08] shadow-2xl overflow-hidden"
+              initial={{ opacity: 0, y: -10, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.98 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="fixed top-20 left-4 right-4 z-50 md:hidden bg-white/95 backdrop-blur-xl rounded-2xl border border-black/[0.08] shadow-2xl p-4 overflow-hidden"
             >
-              <nav className="flex flex-col p-4 gap-1.5">
+              <nav className="flex flex-col gap-1">
                 {navLinks.map((link) => {
                   const isActive = pathname === link.href;
                   return (
-                    <a
+                    <Link
                       key={link.name}
                       href={link.href}
                       onClick={() => setMenuOpen(false)}
                       className={`px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
                         isActive
                           ? "bg-[#0F67FF] text-white"
-                          : "text-[#4A5568] hover:bg-black/[0.04]"
+                          : "text-[#3D4B5C] hover:bg-black/[0.04]"
                       }`}
                     >
                       {link.name}
-                    </a>
+                    </Link>
                   );
                 })}
-                <a
+                <Link
                   href="/contact"
                   onClick={() => setMenuOpen(false)}
-                  className="mt-2 bg-[#0A0F1E] text-white text-sm font-semibold text-center py-3.5 rounded-xl hover:bg-[#0F67FF] transition-colors"
+                  className="mt-2 bg-[#0A0F1E] text-white text-sm font-medium text-center py-3 rounded-xl hover:bg-[#0F67FF] transition-colors"
                 >
-                  Get in Touch
-                </a>
+                  Get in touch
+                </Link>
               </nav>
             </motion.div>
           </>
