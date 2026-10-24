@@ -1,71 +1,72 @@
-'use client';
+"use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+
+// Dynamically load the WebGL R3F canvas (client-side only)
+const EnticeScene = dynamic(() => import("@/components/hero3d/EnticeScene"), {
+  ssr: false,
+  loading: () => <div className="w-full h-full bg-transparent" />,
+});
 
 export default function HeroSection() {
   return (
-    <section
-      className="relative w-full min-h-screen overflow-hidden flex flex-col items-center justify-center bg-transparent"
-    >
-      {/* Centered content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-4 sm:px-6 max-w-5xl mx-auto w-full py-20">
-
-        {/* Eyebrow */}
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, delay: 0.1, ease: "easeOut" }}
-          className="text-[#6B7A8D] text-sm sm:text-base mb-8 tracking-normal"
-        >
-          End-to-end digital solutions — from strategy to execution
-        </motion.p>
-
-        {/* Headline — very large display serif, like Sequence */}
-        <motion.h1
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.85, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-          className="text-[clamp(3.8rem,10.5vw,9rem)] font-normal text-[#1C1C1C] leading-[1.0] tracking-[-0.02em] mb-10 w-full"
-          style={{ fontFamily: "'Cormorant Garamond', Georgia, 'Times New Roman', serif" }}
-        >
-          Entice Innovations
-        </motion.h1>
-
-        {/* Subtext */}
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.45, ease: "easeOut" }}
-          className="text-[#6B7A8D] text-base sm:text-lg leading-relaxed max-w-[560px] mb-8"
-        >
-          We help businesses grow with AI consulting, IT infrastructure, digital marketing,
-          brand building, domain & hosting, and performance marketing — all under one roof.
-        </motion.p>
-
-        {/* Tagline — mirrors the "Sep 18, 2025 · San Francisco" date line */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="text-[#9BAABB] text-sm tracking-[0.04em] mb-10"
-          style={{ fontVariantNumeric: "tabular-nums" }}
-        >
-          AI Consulting &nbsp;·&nbsp; Brand Building &nbsp;·&nbsp; Digital Marketing &nbsp;·&nbsp; IT Infrastructure
-        </motion.p>
-
-        {/* CTA — dark rounded pill exactly like Sequence "Request an invite" */}
-        <motion.a
-          href="/contact"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.75 }}
-          className="inline-flex items-center bg-[#1C1C1C] text-white text-sm font-medium px-8 py-3.5 rounded-full hover:bg-[#0F67FF] transition-colors duration-300 shadow-md"
-        >
-          Start Your Journey
-        </motion.a>
+    <section className="relative w-full min-h-screen overflow-hidden flex flex-col justify-between pt-24 pb-12 px-6 sm:px-12 select-none">
+      {/* 3D WebGL Canvas Layer */}
+      <div className="absolute inset-0 z-0 pointer-events-auto">
+        <EnticeScene />
       </div>
 
+      {/* TOP LEFT: Hero High-Impact Monument Title */}
+      <div className="relative z-10 max-w-2xl mt-6 sm:mt-12 pointer-events-none">
+        <h1
+          className="text-[clamp(3.8rem,9.5vw,8.5rem)] font-normal text-[#0A0F1E] leading-[0.88] tracking-[-0.035em] uppercase"
+          style={{ fontFamily: "'Cormorant Garamond', serif" }}
+        >
+          ENTICE
+          <br />
+          INNOVATIONS
+          <span className="inline-block w-16 sm:w-28 h-[3px] bg-[#0F67FF] ml-4 align-middle" />
+        </h1>
+        <p className="mt-6 text-sm sm:text-base font-medium tracking-[0.2em] text-[#0F67FF] uppercase">
+          AI Consulting &amp; Digital Infrastructure —
+        </p>
+      </div>
+
+      {/* CENTER HINT (Playful interaction cue like the inspiration) */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none text-center hidden md:block">
+        <span className="text-[11px] uppercase tracking-[0.25em] text-[#0A0F1E]/40 font-mono">
+          ◄ DRAG OR CLICK TO EXPLORE ►
+        </span>
+      </div>
+
+      {/* BOTTOM BAR: Agency Philosophy & Service Index (Exact Inspiration Layout) */}
+      <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-8 pt-12 border-t border-black/[0.08] pointer-events-auto">
+        {/* Bottom Left Manifesto & CTA */}
+        <div className="max-w-md">
+          <p className="text-xs sm:text-sm text-[#4A5568] leading-relaxed mb-5">
+            A venture-grade digital architecture practice. We build transformative AI integrations,
+            bespoke IT systems, and high-performance brand ecosystems for leaders across 12+ industries.
+          </p>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-semibold text-[#0F67FF] hover:text-[#0A0F1E] transition-colors group"
+          >
+            <span>Initiate an engagement</span>
+            <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
+        </div>
+
+        {/* Bottom Right Service Index */}
+        <div className="text-right flex flex-col gap-1 text-xs sm:text-sm text-[#0A0F1E]/80 tracking-wide font-normal">
+          <span className="hover:text-[#0F67FF] transition-colors cursor-default">01. AI &amp; Machine Learning Strategy</span>
+          <span className="hover:text-[#0F67FF] transition-colors cursor-default">02. Enterprise IT Architecture</span>
+          <span className="hover:text-[#0F67FF] transition-colors cursor-default">03. High-Growth Brand Building</span>
+          <span className="hover:text-[#0F67FF] transition-colors cursor-default">04. Performance Digital Infrastructure</span>
+          <span className="hover:text-[#0F67FF] transition-colors cursor-default">05. Cloud &amp; Managed Hosting</span>
+        </div>
+      </div>
     </section>
   );
 }
