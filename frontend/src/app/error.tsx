@@ -21,24 +21,22 @@ export default function ErrorPage({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error(error);
+    console.error("Application error:", error);
   }, [error]);
 
   return (
     <main
-      className="relative min-h-screen flex flex-col items-center justify-center px-6 overflow-hidden"
+      className="relative min-h-screen flex flex-col items-center justify-center px-6 overflow-hidden bg-white"
       style={{
         background: `
-          radial-gradient(ellipse 72% 45% at 18% 12%, rgba(147,197,253,0.50) 0%, rgba(186,230,253,0.22) 45%, transparent 70%),
-          radial-gradient(ellipse 50% 35% at 6%  5%,  rgba(186,230,253,0.40) 0%, transparent 58%),
-          radial-gradient(ellipse 55% 40% at 88% 42%, rgba(147,197,253,0.26) 0%, transparent 62%),
-          #f5f8fc
+          radial-gradient(ellipse 72% 45% at 18% 12%, rgba(15, 103, 255, 0.12) 0%, rgba(15, 103, 255, 0.04) 45%, transparent 70%),
+          radial-gradient(ellipse 55% 40% at 88% 42%, rgba(15, 103, 255, 0.08) 0%, transparent 62%),
+          #ffffff
         `,
       }}
     >
-      {/* Watermark */}
       <span
-        className="absolute inset-0 flex items-center justify-center select-none pointer-events-none font-normal text-[#1C1C1C]/[0.04] leading-none"
+        className="absolute inset-0 flex items-center justify-center select-none pointer-events-none font-normal text-[#1C1C1C]/[0.03] leading-none"
         style={{
           fontFamily: "'Cormorant Garamond', Georgia, serif",
           fontSize: "clamp(8rem, 25vw, 18rem)",
@@ -48,11 +46,10 @@ export default function ErrorPage({
         Oops
       </span>
 
-      {/* Content */}
       <div className="relative z-10 max-w-xl w-full text-center">
         <motion.span
           variants={fadeUp} initial="hidden" animate="visible" custom={0}
-          className="text-[#7AAAC8] text-xs uppercase tracking-[0.22em] mb-6 block"
+          className="text-[#0F67FF] text-xs uppercase tracking-[0.22em] mb-6 block font-medium"
         >
           Something Went Wrong
         </motion.span>
@@ -67,19 +64,18 @@ export default function ErrorPage({
 
         <motion.p
           variants={fadeUp} initial="hidden" animate="visible" custom={2}
-          className="text-[#6B7A8D] text-base leading-relaxed mb-10 max-w-sm mx-auto"
+          className="text-[#6B7A8D] text-base leading-relaxed mb-8 max-w-sm mx-auto"
         >
           We've been notified and are looking into it. Try refreshing the page, or head back home.
         </motion.p>
 
-        {/* CTAs */}
         <motion.div
           variants={fadeUp} initial="hidden" animate="visible" custom={3}
           className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8"
         >
           <button
             onClick={reset}
-            className="inline-flex items-center gap-2 bg-[#1C1C1C] text-white text-sm font-medium px-8 py-3.5 rounded-full hover:bg-[#0F67FF] transition-colors duration-300 shadow-md"
+            className="inline-flex items-center gap-2 bg-[#0A0F1E] text-white text-sm font-medium px-8 py-3.5 rounded-full hover:bg-[#0F67FF] transition-colors duration-300 shadow-md"
           >
             Try Again
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -93,16 +89,6 @@ export default function ErrorPage({
             Go Home
           </Link>
         </motion.div>
-
-        {/* Error digest */}
-        {error.digest && (
-          <motion.p
-            variants={fadeUp} initial="hidden" animate="visible" custom={4}
-            className="font-mono text-[10px] text-[#C0CDD8] tracking-widest"
-          >
-            Error ID: {error.digest}
-          </motion.p>
-        )}
       </div>
     </main>
   );
